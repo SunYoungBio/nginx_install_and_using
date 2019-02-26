@@ -1,0 +1,27 @@
+参照http://www.cnblogs.com/wanghuaijun/p/5480554.html
+首先安装必要的库（nginx 中gzip模块需要zlib库，rewrite模块需要pcre库，ssl功能需要openssl库），首先查看有没有自带安装。yum list installed
+下载nginx，解压。
+默认配置：./configure
+make
+make install
+cd /usr/local/nginx/sbin/
+
+启动：./nginx
+./nginx -s quit:此方式停止步骤是待nginx进程处理任务完毕进行停止。
+./nginx -s stop:此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程。
+
+若有新的修改，先停止再启动（推荐）：
+对 nginx 进行重启相当于先停止再启动，即先执行停止命令再执行启动命令。如下：
+./nginx -s quit
+./nginx
+
+重新加载配置文件：
+当 nginx的配置文件 nginx.conf 修改后，要想让配置生效需要重启 nginx，使用-s reload不用先停止nginx再启动nginx 即可将配置信息在nginx中生效，如下：
+./nginx -s reload
+
+开机自启动
+即在rc.local增加启动代码就可以了。
+vi /etc/rc.local
+增加一行 /usr/local/nginx/sbin/nginx
+设置执行权限：（在我的系统中/etc/rc.local是一个软链接，修改原始文件）
+chmod 755 rc.d/rc.local
